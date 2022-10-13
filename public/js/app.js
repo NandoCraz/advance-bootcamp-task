@@ -5637,8 +5637,12 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     checkout: function checkout() {
-      this.$store.dispatch("checkout", this.carts);
-      this.total = 0;
+      var tanya = confirm("Apakah anda yakin ingin checkout?");
+
+      if (tanya) {
+        this.$store.dispatch("checkout", this.carts);
+        this.total = 0;
+      }
     }
   }
 });

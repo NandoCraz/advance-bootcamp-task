@@ -152,8 +152,11 @@ export default {
             });
         },
         checkout() {
-            this.$store.dispatch("checkout", this.carts);
-            this.total = 0;
+            const tanya = confirm("Apakah anda yakin ingin checkout?");
+            if (tanya) {
+                this.$store.dispatch("checkout", this.carts);
+                this.total = 0;
+            }
         },
     },
 };
