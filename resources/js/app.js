@@ -23,8 +23,6 @@ window.Vue = require("vue").default;
 Vue.component("navbar-component", require("./components/Navbar.vue").default);
 Vue.component("navbar2-component", require("./components/Navbar2.vue").default);
 Vue.component("modal-component", require("./components/Modal.vue").default);
-// Vue.component("items-component", require("./components/Item.vue").default);
-// Vue.component("pesanan-component", require("./components/Pesanan.vue").default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -46,5 +44,4 @@ const app = new Vue({
     el: "#app",
     router,
     store,
-    // render: (h) => h(App),
 });

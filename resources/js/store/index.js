@@ -1,57 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import axios from "axios";
 
 Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
-        items: [
-            {
-                id: 1,
-                name: "Gitar Klasik",
-                price: 1200000,
-                pict: "gitarKlasik.jpg",
-                stock: 12,
-            },
-            {
-                id: 2,
-                name: "Gitar Akustik",
-                price: 2500000,
-                pict: "gitarAkustik.jpg",
-                stock: 8,
-            },
-            {
-                id: 3,
-                name: "Gitar Listrik",
-                price: 1800000,
-                pict: "gitarListrik.jpg",
-                stock: 5,
-            },
-            {
-                id: 4,
-                name: "Gitar Folk",
-                price: 900000,
-                pict: "gitarFolk.jpg",
-                stock: 4,
-            },
-        ],
-        itemStock: [
-            {
-                id: 1,
-                stock: 12,
-            },
-            {
-                id: 2,
-                stock: 8,
-            },
-            {
-                id: 3,
-                stock: 5,
-            },
-            {
-                id: 4,
-                stock: 4,
-            },
-        ],
+        items: [],
+        itemStock: [],
         carts: [],
         pesanans: [],
     },
@@ -62,6 +17,7 @@ export default new Vuex.Store({
         pesanans: (state) => state.pesanans,
     },
     mutations: {
+        // Method manipulasi state
         tambahStock(state, id) {
             let produk = state.items.find((item) => item.id == id);
             produk.stock++;
@@ -79,8 +35,13 @@ export default new Vuex.Store({
             }
             alert("Pesanan Anda Telah Kami Terima");
         },
+
+        // mengisi state dari API
+        setItems: (state, items) => (state.items = items),
+        setItemStock: (state, itemStock) => (state.itemStock = itemStock),
     },
     actions: {
+        // Method untuk menambahkan item ke keranjang
         tambahStock(context, id) {
             context.commit("tambahStock", id);
         },
@@ -89,6 +50,16 @@ export default new Vuex.Store({
         },
         checkout(context) {
             context.commit("checkout");
+        },
+
+        // Fetch data dari API
+        async fetchItems({ commit }) {
+            const response = await axios.get("http://localhost:3000/items");
+            commit("setItems", response.data);
+        },
+        async fetchItemStock({ commit }) {
+            const response = await axios.get("http://localhost:3000/itemStock");
+            commit("setItemStock", response.data);
         },
     },
 });

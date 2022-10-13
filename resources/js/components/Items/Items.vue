@@ -1,10 +1,6 @@
 <template>
     <div class="container">
         <navbar-component :carts="carts"></navbar-component>
-        <!-- <items-component
-            @add-to-cart="addToCart"
-            :items="items"
-        ></items-component> -->
         <div class="container mt-5">
             <div class="row">
                 <div class="col-md-3" v-for="item in items" :key="item.id">
@@ -42,7 +38,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
     data() {
@@ -54,6 +50,7 @@ export default {
         ...mapGetters(["items", "itemStock", "carts"]),
     },
     methods: {
+        ...mapActions(["fetchItems", "fetchItemStock"]),
         addToCart(id) {
             this.items.forEach((item) => {
                 if (item.id == id) {
@@ -92,47 +89,9 @@ export default {
         awalStock(id) {
             this.$store.dispatch("awalStock", id);
         },
-        // addToCart(id) {
-        //     this.items.forEach((item) => {
-        //         if (item.id == id) {
-        //             if (item.stock == 0) {
-        //                 item.stock = 0;
-        //                 alert("Stock habis");
-        //                 return false;
-        //             }
-        //             item.stock--;
-        //             let produk = this.items.find((item) => item.id == id);
-        //             let cart = this.carts.find((item) => item.idProduk == id);
-        //             let idProduk = produk.id;
-        //             let nama = produk.name;
-        //             let harga = produk.price;
-
-        //             if (!cart) {
-        //                 let cartTotal = {
-        //                     idProduk: idProduk,
-        //                     nama: nama,
-        //                     harga: harga,
-        //                     qty: 1,
-        //                     subTotal: harga,
-        //                 };
-        //                 this.carts.push(cartTotal);
-        //             } else {
-        //                 cart.qty++;
-        //                 cart.subTotal = cart.qty * cart.harga;
-        //             }
-        //         }
-        //     });
-        // },
-        // tambahStock(id) {
-        //     let produk = this.items.find((item) => item.id == id);
-        //     produk.stock++;
-        // },
-
-        // awalStock(id) {
-        //     let produk = this.items.find((item) => item.id == id);
-        //     let awal = this.itemStock.find((item) => item.id == id);
-        //     produk.stock = awal.stock;
-        // },
+    },
+    created() {
+        [this.fetchItems(), this.fetchItemStock()];
     },
 };
 </script>
